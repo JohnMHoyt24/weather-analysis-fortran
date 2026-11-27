@@ -2,6 +2,41 @@
 
 `weather_analysis.f90` reads hourly weather observations from `weather_dummy_data.csv` and prints each record.
 
+## Building and running
+
+The program is split into three source files:
+
+| File                   | Contains                                        | Depends on                      |
+|------------------------|-------------------------------------------------|---------------------------------|
+| `weather_data.f90`     | `weather_data` module (reads the CSV)           | none                            |
+| `weather_stats.f90`    | `weather_stats` module (averages, statistics)   | `weather_data`                  |
+| `weather_analysis.f90` | `weather_analysis` main program                 | `weather_data`, `weather_stats` |
+
+Compile everything with gfortran in one command:
+
+```sh
+gfortran weather_data.f90 weather_stats.f90 weather_analysis.f90 -o weather.exe
+```
+
+Then run it from the project folder, so it can find `weather_dummy_data.csv`:
+
+```sh
+./weather.exe
+```
+
+The order of the files matters. A module must be compiled before any file that `use`s it, because compiling a module writes a `.mod` file (`weather_data.mod`, `weather_stats.mod`) that the later files read. List the files with dependencies first and the main program last.
+
+You can also compile each file separately into an object file (`-c`) and then link them:
+
+```sh
+gfortran -c weather_data.f90
+gfortran -c weather_stats.f90
+gfortran -c weather_analysis.f90
+gfortran weather_data.o weather_stats.o weather_analysis.o -o weather.exe
+```
+
+This way, after changing one file you only need to recompile that file (and any files that `use` it) before linking again.
+
 ## Key concepts
 
 ### Unit numbers
