@@ -91,3 +91,5 @@ module weather_stats
         var_temp = compute_variance_temperature(records)
         std_dev_temp = sqrt(var_temp)
     end function compute_std_dev_temperature
+
+end module weather_stats

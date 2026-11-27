@@ -1,6 +1,7 @@
 program weather_analysis
     ! Bring in the record type and file reader from the weather_data module
     use weather_data, only: weather_record, read_weather_data
+    use weather_stats, only: compute_average_temperature, compute_average_pressure, compute_average_dewpoint
     ! implicit none is used to enforce explicit declaration of all variables in the program.
     ! This helps prevent errors due to typos or undeclared variables.
     implicit none
